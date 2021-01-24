@@ -1,0 +1,59 @@
+﻿@model Student
+@{
+
+    ViewData["Title"] = "Create";
+
+    List<String> streams = new List<String>();
+    streams.Add("Maths");
+    streams.Add("Science");
+    streams.Add("Commerce");
+
+}
+
+<h1>Create New Student</h1>
+
+@if (TempData["UserCreateFailed"] != null)
+{
+    <p class="alert alert-danger">@TempData["UserCreateFailed"]</p>
+}
+
+<div class="container">
+    @using (Html.BeginForm("Create", "Student", FormMethod.Post, new { @class = "newsletterform" }))
+    {
+
+
+
+        <div class="form-group">
+            <label for="exampleInputEmail1"> @Html.LabelFor(m => m.Name)</label>
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+            <small id="emailHelp" class="text-danger"> @Html.ValidationMessageFor(m => m.Name)</small>
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputEmail1"> @Html.LabelFor(m => m.Birthday)</label>
+            @Html.TextBoxFor(m => m.Birthday, new { @class = "form-control", @type = "date" })
+            <small id="emailHelp" class="text-danger"> @Html.ValidationMessageFor(m => m.Birthday)</small>
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputEmail1"> @Html.LabelFor(m => m.RegisterDate)</label>
+            @Html.TextBoxFor(m => m.RegisterDate, new { @class = "form-control", @type = "date" })
+            <small id="emailHelp" class="text-danger"> @Html.ValidationMessageFor(m => m.RegisterDate)</small>
+        </div>
+
+
+        <div class="form-group">
+            <label for="exampleInputEmail1"> @Html.LabelFor(m => m.ALStream)</label>  
+            <select class="form-control" asp-for="ALStream">
+                @foreach (string st in streams)
+                {
+                    <option value=@st>@st</option>
+                }
+
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    }
+
+</div>

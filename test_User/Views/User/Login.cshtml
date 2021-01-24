@@ -1,0 +1,41 @@
+﻿@model User
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h1>Login</h1>
+
+
+<div class="container">
+
+    @if (TempData["UserLoginFailed"] != null)
+    {
+        <p class="alert alert-danger">@TempData["UserLoginFailed"]</p>
+    }
+
+    <div class="row justify-content-lg-center">
+        @using (Html.BeginForm("Login", "User", FormMethod.Post, new { @class = "newsletterform" }))
+        {
+
+
+
+            <div class="form-group">
+                <label for="exampleInputEmail1"> @Html.LabelFor(m => m.Email)</label>
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                <small id="emailHelp" class="form-text text-muted"> @Html.ValidationMessageFor(m => m.Email)</small>
+            </div>
+
+            <div class="form-group">
+                <label for="exampleInputEmail1"> @Html.LabelFor(m => m.Password)</label>
+                @Html.TextBoxFor(m => m.Password, new { @class = "form-control" })
+                <small id="emailHelp" class="form-text text-muted"> @Html.ValidationMessageFor(m => m.Password)</small>
+
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        }
+
+
+
+    </div>
+
+</div>
