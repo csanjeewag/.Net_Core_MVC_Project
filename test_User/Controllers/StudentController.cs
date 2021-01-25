@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
+using test_User.IRepository;
 using test_User.Models;
 using test_User.Repository;
 
@@ -12,10 +15,11 @@ namespace test_User.Controllers
 {
     public class StudentController : Controller
     {
-        StudentRepository _repository;
-        public StudentController()
+        private IStudentRepository _repository;
+        public StudentController(IStudentRepository repository)
         {
-            _repository = new StudentRepository();
+                      
+            _repository = repository;
         }
         // GET: StudentController
         public ActionResult Index()

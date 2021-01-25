@@ -9,6 +9,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using test_User.IRepository;
+using test_User.Repository;
 
 namespace test_User
 {
@@ -25,6 +27,8 @@ namespace test_User
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                     .AddCookie(options =>
                     {
@@ -40,6 +44,7 @@ namespace test_User
             });
 
             services.AddControllersWithViews();
+            services.AddSingleton<IStudentRepository, StudentRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

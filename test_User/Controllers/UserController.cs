@@ -26,6 +26,13 @@ namespace test_User.Controllers
             
         }
 
+        public IActionResult Create()
+        {
+           
+            return View();
+
+        }
+
         [HttpPost]
         public IActionResult Login(User model,string returnUrl)
         {

@@ -8,12 +8,17 @@ using test_User.Models;
 using System.Configuration;
 using System.Data;
 using System.Reflection;
+using test_User.IRepository;
 
 namespace test_User.Repository
 {
-    public class StudentRepository
+    public class StudentRepository : IStudentRepository
     {
-
+        private DataContext _dataContext;
+        public StudentRepository(IConfiguration configuration)
+        {
+            _dataContext = new DataContext(configuration);
+        }
         public Boolean Create(Student obj)
         {
             
@@ -25,7 +30,7 @@ namespace test_User.Repository
                             $"'{obj.RegisterDate}', " +
                             $"'{obj.ALStream}')";
 
-            return DataContext.pushData(sql);
+            return _dataContext.pushData(sql);
 
         }
 
@@ -38,18 +43,20 @@ namespace test_User.Repository
                             $",ALStream = '{obj.ALStream}'" +
                             $"WHERE Id = '{obj.Id}'" ;
 
-            return DataContext.pushData(sql);
+            return _dataContext.pushData(sql);
 
         }
         
 
         public List<Student> GetAll()
         {
+          
             List<Student> students = new List<Student>();
 
             String sql = $"SELECT * FROM student";
-            
-            DataTable dataTable = DataContext.PullData(sql);
+
+            DataTable dataTable  = _dataContext.PullData(sql);
+
             students = DataContext.ConvertDataTable<Student>(dataTable);
 
             return students;
@@ -64,7 +71,7 @@ namespace test_User.Repository
             String sql = $"SELECT * FROM student WHERE id={id}";
 
 
-            DataTable dataTable = DataContext.PullData(sql);
+            DataTable dataTable = _dataContext.PullData(sql);
             students = DataContext.ConvertDataTable<Student>(dataTable);
 
             return students[0];
@@ -78,7 +85,7 @@ namespace test_User.Repository
             String sql = $"DELETE FROM student WHERE id={id}";
 
 
-            DataTable dataTable = DataContext.PullData(sql);
+            DataTable dataTable = _dataContext.PullData(sql);
             students = DataContext.ConvertDataTable<Student>(dataTable);
 
             return students[0];
@@ -93,7 +100,7 @@ namespace test_User.Repository
 
             String sql = $"SELECT * FROM student WHERE Name LIKE '%{str.Trim().ToLower()}%'";
 
-            DataTable dataTable = DataContext.PullData(sql);
+            DataTable dataTable = _dataContext.PullData(sql);
             students = DataContext.ConvertDataTable<Student>(dataTable);
 
             return students;

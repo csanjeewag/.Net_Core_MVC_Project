@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -11,7 +12,11 @@ namespace test_User.Repository
 {
     public  class DataContext
     {
-        
+        private String connectionString ;
+        public DataContext(IConfiguration configuration)
+        {
+            connectionString = configuration.GetConnectionString("mvcContext");
+        }
 
         public static List<T> ConvertDataTable<T>(DataTable dt)
         {
@@ -41,13 +46,13 @@ namespace test_User.Repository
             return obj;
         }
 
-        public static Boolean pushData(String sql)
+        public Boolean pushData(String sql)
         {
 
             try
             {
-
-                using (SqlConnection connection = new SqlConnection("Server=localhost;Database=mvctest;Trusted_Connection=True;"))
+                
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
 
@@ -68,13 +73,12 @@ namespace test_User.Repository
         }
 
   
-        public static DataTable PullData(String sql)
+        public DataTable PullData(String sql)
         {
             
-            string connString = "Server = localhost; Database = mvctest; Trusted_Connection = True; ";
             DataTable dataTable = new DataTable();
 
-            SqlConnection conn = new SqlConnection(connString);
+            SqlConnection conn = new SqlConnection(connectionString);
             SqlCommand cmd = new SqlCommand(sql, conn);
             conn.Open();
 
